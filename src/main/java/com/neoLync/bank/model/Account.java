@@ -3,29 +3,29 @@ package com.neoLync.bank.model;
 import java.util.Date;
 
 public class Account {
-	private int code;
-	private Client owner;
+	private long id;
+	private long ownerId;
 	private double balance;
 	private Date creationDate;
 	
-	public Account(int code, Client owner, double balance, Date creationDate) {
+	public Account(long id, long ownerId, double balance, Date creationDate) {
 		super();
-		this.code = code;
-		this.owner = owner;
+		this.id = id;
+		this.ownerId = ownerId;
 		this.balance = balance;
 		this.creationDate = creationDate;
 	}
-	public int getCode() {
-		return code;
+	public long getId() {
+		return id;
 	}
-	public void setCode(int code) {
-		this.code = code;
+	public void setId(long code) {
+		this.id = code;
 	}
-	public Client getOwner() {
-		return owner;
+	public long getOwnerId() {
+		return ownerId;
 	}
-	public void setOwner(Client owner) {
-		this.owner = owner;
+	public void setOwnerId(long ownerId) {
+		this.ownerId = ownerId;
 	}
 	public double getBalance() {
 		return balance;
@@ -42,7 +42,7 @@ public class Account {
 	
 	@Override
 	public String toString() {
-		return "Account [code=" + code + ", owner=" + owner + ", balance=" + balance + ", creationDate=" + creationDate
+		return "Account [code=" + id + ", owner=" + ownerId + ", balance=" + balance + ", creationDate=" + creationDate
 				+ "]";
 	};
 	

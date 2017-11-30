@@ -1,18 +1,20 @@
 package com.neoLync.bank.services;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 import com.neoLync.bank.model.Client;
 
 public class ClientService {
 
-	private LinkedList<Client> clientlist;
+	private List<Client> clientlist = new LinkedList<Client>();
 
-	public LinkedList<Client> getClientlist() {
+	public List<Client> getClientlist() {
 		return clientlist;
 	}
 
-	public void setClientlist(LinkedList<Client> clientlist) {
+	public void setClientlist(List<Client> clientlist) {
 		this.clientlist = clientlist;
 	}
 
@@ -38,8 +40,14 @@ public class ClientService {
 			}
 		});
 	}
-	
-	public void read() {
+
+	public Optional<Client> read(long id) {
+		return clientlist.stream()
+				.filter(cl -> cl.getId() == id)
+				.findFirst();
+	}
+
+	public void showList() {
 		clientlist.forEach(System.out::println);
 	}
 
