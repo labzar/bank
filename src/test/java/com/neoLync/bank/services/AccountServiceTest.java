@@ -1,22 +1,28 @@
 package com.neoLync.bank.services;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Optional;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.neoLync.bank.model.Account;
 
 public class AccountServiceTest {
+	
+	@Rule
+    public ExpectedException thrown = ExpectedException.none();
 
 	public AccountService accountService = new AccountService();
 
+	//===============================================Test CRUD===============================================
 	@Test
-	public void testAddAccount() throws ParseException {
+	public void testAddAccount() {
 
 		// Create Account
 		Account ac1 = new Account(1, 11, 2200, new Date());
@@ -28,7 +34,7 @@ public class AccountServiceTest {
 
 
 	@Test
-	public void testReadAccount() throws ParseException {
+	public void testReadAccount() {
 		// Create Account
 		Account ac1 = new Account(1, 11, 2200, new Date());
 		Account ac2 = new Account(2, 22, 2300, new Date());
@@ -46,7 +52,7 @@ public class AccountServiceTest {
 	}
 
 	@Test
-	public void testDeleteAccount() throws ParseException {
+	public void testDeleteAccount() {
 		// Create Account
 		Account ac1 = new Account(1, 11, 2200, new Date());
 		Account ac2 = new Account(2, 22, 2300, new Date());
@@ -69,7 +75,7 @@ public class AccountServiceTest {
 	}
 
 	@Test
-	public void testUpdateAccount() throws ParseException {
+	public void testUpdateAccount() {
 		// Create Account
 		Account ac1 = new Account(1, 11, 2200, new Date());
 		Account ac2 = new Account(2, 22, 2300, new Date());
@@ -80,9 +86,54 @@ public class AccountServiceTest {
 
 		//update ac2
 		accountService.update(new Account(2, 33, 2400, new Date()));
-		
+
 		// test update
 		assertTrue(2400 == accountService.read(2).get().getBalance());
 	}
 
+	//========================================Test withdraw and deposit money in bank accounts=================================
+
+	@Test
+	public void testWithdraw() throws Exception {
+		Account ac1 = new Account(1, 11, 2200, new Date());
+
+		// test update
+		assertTrue(2200 == ac1.getBalance());
+
+		ac1.withdraw(200);
+
+		// test withdraw
+		assertTrue(2000 == ac1.getBalance());
+	}
+	
+	@Test
+	public void testWithdrawWithNotEnoughBalance() throws Exception {
+		Account ac1 = new Account(1, 11, 2200, new Date());
+
+		// test update
+		assertTrue(2200 == ac1.getBalance());
+
+		
+		//test type
+        thrown.expect(Exception.class);
+
+		//test message
+        thrown.expectMessage(is("You don't have enough balance"));
+        
+        ac1.withdraw(4000);
+	}
+
+	@Test
+	public void testDeposit() {
+		Account ac1 = new Account(1, 11, 2200, new Date());
+
+		// test update
+		assertTrue(2200 == ac1.getBalance());
+
+		ac1.deposit(200);
+
+		// test withdraw
+		assertTrue(2400 == ac1.getBalance());
+	}
+	
 }

@@ -57,6 +57,7 @@ public class Client {
 		this.birthDate = birthDate;
 	}
 	public ArrayList<Account> getAccounts() {
+		if (accounts == null) accounts = new ArrayList<Account>();
 		return accounts;
 	}
 	public void setAccounts(ArrayList<Account> accounts) {

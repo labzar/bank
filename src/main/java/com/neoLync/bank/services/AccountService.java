@@ -3,6 +3,7 @@ package com.neoLync.bank.services;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.neoLync.bank.model.Account;
 
@@ -42,5 +43,24 @@ public class AccountService {
 
 	public void showList() {
 		accountList.forEach(System.out::println);
+	}
+
+	public List<Account> findAllAccountOfUser(long id) {
+		return accountList.stream()
+        .filter(line -> line.getOwnerId() == id)
+        .collect(Collectors.toList());
+	}
+
+	public double sumBalanceOfAllAccountOfUser(long id) {
+		int sum = 0;
+		List <Account> filtredList = accountList.stream()
+        .filter(line -> line.getOwnerId() == id)
+        .collect(Collectors.toList());
+		
+		for (Account account : filtredList) {
+			sum += account.getBalance();
+		}
+		
+		return sum;
 	}
 }
